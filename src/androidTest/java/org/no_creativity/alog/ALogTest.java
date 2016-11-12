@@ -1,8 +1,6 @@
 package org.no_creativity.alog;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -88,13 +86,19 @@ public class ALogTest {
         private final LogLevel level;
         private Boolean result = null;
 
-        LogObserver(String message, LogLevel level) throws InterruptedException {
+        LogObserver(String message, LogLevel level) {
             this.message = message;
             this.level = level;
             B.log.v();
         }
 
-        @TargetApi(Build.VERSION_CODES.KITKAT)
+        boolean getResult() {
+            if (this.result == null) {
+                observe();
+            }
+            return this.result;
+        }
+
         private void observe() {
             B.log.v();
             Process process = createObserverProcess();
@@ -129,13 +133,6 @@ public class ALogTest {
                 fail(e.getMessage());
                 throw new IllegalThreadStateException(e.getMessage());
             }
-        }
-
-        boolean getResult() throws InterruptedException {
-            if (this.result == null) {
-                observe();
-            }
-            return this.result;
         }
     }
 }
