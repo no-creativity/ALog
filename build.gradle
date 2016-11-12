@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'org.no_creativity:AnVerGen:0.6.0'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+import org.no_creativity.anvergen.Ver
+
+apply plugin: 'com.android.library'
+
+// noinspection GroovyMissingReturnStatement
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 25
+        versionCode Ver.generateVersionCode()
+        versionName Ver.generateVersionName()
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    provided 'com.android.support:support-annotations:25.0.0'
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
