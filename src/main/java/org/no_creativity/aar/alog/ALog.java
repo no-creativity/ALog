@@ -6,7 +6,6 @@
 
 package org.no_creativity.aar.alog;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
@@ -21,7 +20,7 @@ public abstract class ALog {
     private final String TAG;
     private final boolean DEBUG;
 
-    protected ALog(@NonNull String tag, boolean debug) {
+    protected ALog(String tag, boolean debug) {
         TAG = tag;
         DEBUG = debug;
     }
