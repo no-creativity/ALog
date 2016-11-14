@@ -1,3 +1,9 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2016 Yan QiDong
+ */
+
 package org.no_creativity.alog;
 
 import android.content.Context;
