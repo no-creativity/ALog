@@ -4,7 +4,7 @@
  * Copyright (c) 2016 Yan QiDong
  */
 
-package org.no_creativity.alog;
+package org.no_creativity.aar.alog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -49,7 +49,7 @@ public class ALogTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.no_creativity.alog.test", appContext.getPackageName());
+        assertEquals("org.no_creativity.aar.alog.test", appContext.getPackageName());
     }
 
     @Test

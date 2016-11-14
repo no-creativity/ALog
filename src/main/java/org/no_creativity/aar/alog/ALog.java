@@ -4,7 +4,7 @@
  * Copyright (c) 2016 Yan QiDong
  */
 
-package org.no_creativity.alog;
+package org.no_creativity.aar.alog;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
