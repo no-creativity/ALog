@@ -27,7 +27,25 @@ script:
   - ./gradlew connectedAndroidTest
   - ./gradlew createDebugCoverageReport
 
+after_failure:
+  - cat build/outputs/lint-results-debug.xml
+  - cat build/outputs/androidTest-results/connected/*.xml
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - for name in $(find $TRAVIS_BUILD_DIR -name '*.aar'); do ls -hl $name;  done
+
+before_deploy: ./gradlew build
+
+deploy:
+  - provider: releases
+    skip_cleanup: true
+    file_glob: true
+    file:
+      - $TRAVIS_BUILD_DIR/build/libs/*.jar
+      - $TRAVIS_BUILD_DIR/build/libs/*.aar
+    on:
+      tags: true
+      jdk: oraclejdk8
 
 # vim: set shiftwidth=2 tabstop=2 softtabstop=-1 expandtab:

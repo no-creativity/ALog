@@ -50,3 +50,48 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
+
+group 'org.no_creativity.aar'
+version Ver.generateVersionName()
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+
+    options {
+        locale 'en'
+        encoding 'UTF-8'
+        charSet 'UTF-8'
+        author true
+        version true
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+def aarDir = "$buildDir/libs"
+def aarName = "${project.name}-${version}.aar"
+
+task copyAar(type: Copy, dependsOn: check) {
+    from ("$buildDir/outputs/aar") {
+        include '*-release.aar'
+        rename '.*-release.aar', aarName
+    }
+    into aarDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives(file("$aarDir/$aarName")) {
+        builtBy copyAar
+    }
+}
