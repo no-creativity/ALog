@@ -126,3 +126,4 @@ fabric.properties
 !.idea/codeStyleSettings.xml
 !.idea/vcs.xml
 !.idea/encodings.xml
+!.idea/dictionaries
