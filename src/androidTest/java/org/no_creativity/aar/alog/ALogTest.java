@@ -35,13 +35,11 @@ public class ALogTest {
     private static final String TAG = ALogTest.class.getSimpleName();
 
     @Before
-    public void clearLog() {
+    public void clearLog() throws InterruptedException, IOException {
+        Thread.sleep(25);
         Runtime runtime = Runtime.getRuntime();
-        try {
-            runtime.exec("logcat -c").waitFor();
-        } catch (InterruptedException | IOException e) {
-            fail(e.getMessage());
-        }
+        runtime.exec("logcat -c").waitFor();
+        Thread.sleep(25);
     }
 
     @Test
