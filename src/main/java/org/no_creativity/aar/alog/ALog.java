@@ -47,4 +47,11 @@ public abstract class ALog {
             Log.v(TAG, getThreadInfo());
         }
     }
+
+    @SuppressWarnings("WeakerAccess")
+    public void d(String message) {
+        if (DEBUG) {
+            Log.d(TAG, getThreadInfo() + message);
+        }
+    }
 }

@@ -35,10 +35,8 @@ public class ALogTest {
 
     @Before
     public void clearLog() throws InterruptedException, IOException {
-        Thread.sleep(25);
         Runtime runtime = Runtime.getRuntime();
         runtime.exec("logcat -c").waitFor();
-        Thread.sleep(25);
     }
 
     @Test
@@ -55,24 +53,40 @@ public class ALogTest {
 
         LogObserver observerA = new LogObserver(MSG, LogLevel.V);
         A.log.v();
-        assertTrue(observerA.getResult());
+        assertFalse(observerA.getResult());
 
         clearLog();
 
         LogObserver observerB = new LogObserver(MSG, LogLevel.V);
         B.log.v();
-        assertFalse(observerB.getResult());
+        assertTrue(observerB.getResult());
+    }
+
+    @Test
+    public void testD() throws Exception {
+        final String INFO = "hello";
+        final String MSG = "ALogTest.testD() " + INFO;
+        LogObserver observerA = new LogObserver(MSG, LogLevel.D);
+        A.log.d(INFO);
+        assertFalse(observerA.getResult());
+
+        clearLog();
+
+        LogObserver observerB = new LogObserver(MSG, LogLevel.D);
+        B.log.d(INFO);
+        assertTrue(observerB.getResult());
     }
 
     enum LogLevel {
         V,
+        D,
     }
 
     private static class A extends ALog {
         static final ALog log = new A(TAG);
 
         private A(String tag) {
-            super(tag, true);
+            super(tag, false);
         }
     }
 
@@ -80,7 +94,7 @@ public class ALogTest {
         static final ALog log = new B(TAG);
 
         private B(String tag) {
-            super(tag, false);
+            super(tag, true);
         }
     }
 
