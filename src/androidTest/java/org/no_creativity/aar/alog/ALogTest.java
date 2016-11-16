@@ -106,18 +106,19 @@ public class ALogTest {
     class LogObserver {
         private final String message;
         private final LogLevel level;
+        private final Runtime runtime;
         private Boolean result = null;
 
         LogObserver(String message, LogLevel level) {
             this.message = message;
             this.level = level;
+            this.runtime = Runtime.getRuntime();
             clearLog();
         }
 
         private void clearLog() {
-            Runtime runtime = Runtime.getRuntime();
             try {
-                runtime.exec("logcat -c").waitFor();
+                this.runtime.exec("logcat -c").waitFor();
             } catch (InterruptedException | IOException e) {
                 fail(e.getMessage());
             }
@@ -153,9 +154,8 @@ public class ALogTest {
         }
 
         private Process createObserverProcess() {
-            Runtime runtime = Runtime.getRuntime();
             try {
-                return runtime.exec("logcat -ds " + TAG + ":" + this.level);
+                return this.runtime.exec("logcat -ds " + TAG + ":" + this.level);
             } catch (IOException e) {
                 fail(e.getMessage());
                 throw new IllegalThreadStateException(e.getMessage());
