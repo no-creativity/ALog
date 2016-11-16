@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
-        classpath 'org.no_creativity:AnVerGen:0.6.0'
+        classpath 'org.no_creativity:AnVerGen:1.0.0'
     }
 }
 
