@@ -10,7 +10,6 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,12 +32,6 @@ import static org.junit.Assert.fail;
 public class ALogTest {
     private static final String TAG = ALogTest.class.getSimpleName();
 
-    @Before
-    public void clearLog() throws InterruptedException, IOException {
-        Runtime runtime = Runtime.getRuntime();
-        runtime.exec("logcat -c").waitFor();
-    }
-
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
@@ -55,8 +48,6 @@ public class ALogTest {
         A.log.v();
         assertFalse(observerA.getResult());
 
-        clearLog();
-
         LogObserver observerB = new LogObserver(MSG, LogLevel.V);
         B.log.v();
         assertTrue(observerB.getResult());
@@ -69,8 +60,6 @@ public class ALogTest {
         LogObserver observerA = new LogObserver(MSG, LogLevel.D);
         A.log.d(INFO);
         assertFalse(observerA.getResult());
-
-        clearLog();
 
         LogObserver observerB = new LogObserver(MSG, LogLevel.D);
         B.log.d(INFO);
@@ -106,7 +95,16 @@ public class ALogTest {
         LogObserver(String message, LogLevel level) {
             this.message = message;
             this.level = level;
-            B.log.v();
+            clearLog();
+        }
+
+        private void clearLog() {
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("logcat -c").waitFor();
+            } catch (InterruptedException | IOException e) {
+                fail(e.getMessage());
+            }
         }
 
         boolean getResult() {
@@ -117,9 +115,7 @@ public class ALogTest {
         }
 
         private void observe() {
-            B.log.v();
             Process process = createObserverProcess();
-
             try {
                 this.result = checkLog(process.getInputStream());
             } catch (IOException e) {
@@ -130,7 +126,6 @@ public class ALogTest {
         }
 
         private boolean checkLog(InputStream in) throws IOException {
-            B.log.v();
             InputStreamReader streamReader = new InputStreamReader(in);
             BufferedReader reader = new BufferedReader(streamReader);
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
