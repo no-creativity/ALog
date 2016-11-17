@@ -18,9 +18,12 @@ repositories {
     jcenter()
 }
 
+import groovy.json.JsonBuilder
+import org.no_creativity.anvergen.Git
 import org.no_creativity.anvergen.Ver
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 // noinspection GroovyMissingReturnStatement
 android {
@@ -89,10 +92,106 @@ task copyAar(type: Copy, dependsOn: check) {
     into aarDir
 }
 
+def date = new Date()
+def travisDir = "$buildDir/travis"
+def githubUrl = "https://github.com/no-creativity/${project.name}"
+def pomFile = "$travisDir/${project.name}-${version}.pom"
+
+task writePom << {
+    pom {
+        project {
+            inceptionYear date.format('yyyy')
+            licenses {
+                license {
+                    name 'MIT License'
+                    url "$githubUrl/blob/master/LICENSE"
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id 'yanqd0'
+                    name 'Yan QiDong'
+                    email 'yanqd0@outlook.com'
+                    url 'https://github.com/yanqd0'
+                    timezone '+8'
+                }
+            }
+            issueManagement {
+                system 'github'
+                url "$githubUrl/issues"
+            }
+        }
+    }.writeTo(pomFile)
+}
+
+def packageDir = "${group.replace('.', '/')}/${project.name}"
+def descriptorJson = "$travisDir/descriptor.json"
+
+task writeDescriptor << {
+    def tag = Git.getLatestTag()
+    def versionDesc = {
+        if (tag.equals(Git.getGitDescribe())) {
+            return Git.getTagMessage(tag)
+        } else {
+            return Git.getCommitMessage()
+        }
+    }
+
+    def builder = new JsonBuilder()
+    def root = builder {
+        'package' {
+            name project.name
+            repo 'maven'
+            subject 'no-creativity'
+            desc 'A Log wrapper for Android applications.'
+            website_url githubUrl
+            issue_tracker_url "$githubUrl/issues"
+            vcs_url "${githubUrl}.git"
+            github_use_tag_release_notes true
+            github_release_notes_file 'README.md'
+            labels 'android'
+            public_download_numbers true
+        }
+        'version' {
+            name version
+            desc versionDesc()
+            released date.format('yyyy-MM-dd')
+            vcs_tag tag
+            gpgSign true
+        }
+        publish true
+    }
+    root.files = []
+    root.files.add([
+            'includePattern': 'build/libs/(.*)',
+            'uploadPattern' : "$packageDir/$version/\$1",
+            'matrixParams'  : ['override': 1]
+    ])
+    root.files.add([
+            'includePattern': "$travisDir/(.*\\.pom)",
+            'uploadPattern' : "$packageDir/$version/\$1",
+            'matrixParams'  : ['override': 1]
+    ])
+
+    def dir = new File(travisDir)
+    if (!dir.isDirectory()) {
+        dir.mkdir()
+    }
+    def jsonFile = new File(descriptorJson)
+    jsonFile.write(builder.toPrettyString())
+}
+
 artifacts {
     archives sourcesJar
     archives javadocJar
     archives(file("$aarDir/$aarName")) {
         builtBy copyAar
+    }
+    archives(file(pomFile)) {
+        builtBy writePom
+    }
+    archives(file(descriptorJson)) {
+        builtBy writeDescriptor
     }
 }

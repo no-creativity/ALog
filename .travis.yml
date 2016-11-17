@@ -47,6 +47,15 @@ deploy:
       jdk: oraclejdk8
     api_key:
       secure: "GJ0NCp4+WHsfTNQmcHkc/d+5AWERwPJd5bFiy2uwgOqLDWNdYpa+YNLs77GEL4Xn5pYYcJOisxJRJ4NmRqOFJ6kIYPDFV8KSx+IpjDXTtCJPRfY4GbvKAvhc+EC4NUKeo8hXeGE6912jKEoH53oWyJEVZnYoAjcVNK6GM6CjslQ2mrz2zj4w8ZfAcDxDy+YHHtWSnLhYd2hiU0xf51WjjEvV5PGxYrjNggil9QCCAceS8Z9acAYgvcZtw45fpsIyH22d8la9Gxn+LPkYqm01Hhp+1FK5a9E6M9BRImwo8dmX0f5imsxLGDN5gqgb4fX01IBkcxwTSFZLF3JI7JVhHgYNvTtXLg1vICryyb5XQoSqHLL4M0nh67wjQNR8MKaPvtk1pFn581o4qI5S+O1hv5hJTklgwNzDx0pGS8SLfYWljqju9roO3c7+RaI1zrsKTsKSCNmY7R7DHwQGUxZZs4v4X882FbjzLwSJAO6rP/dI3d2ND6zO+qotrORXwsZnkkDoJZN20VKDn4RpXw+rSwh5LI2LK0S9lPui1LeqbcWIk7vbjqmr5aq2oryUIAbkWAjAYJWzVXNa9ssZu7WBYW3DXPrOZvrdDkZpR/NxXqvCnzeEAIWioH6wAY4gXIec4RpOLHKyOBGSd7wAggXRFWPB5InpT5AeKnq4VsU7hAA="
+  - provider: bintray
+    skip_cleanup: true
+    file: "build/travis/descriptor.json"
+    user: yanqd0
+    on:
+      tags: true
+      jdk: oraclejdk8
+    key:
+      secure: "Xl1JFolEXg65P6KS6mzjrhNZs5WYvKmvZmORP7KJ93bpYkjnVccO/BXoSTZdSDZljTPWpU6kS6F19HEnBTa0GQ42mDotdmuijMdS8OL0RzoRB5R6qVi6HjWcdxaUPAQVbW3d4ge2pCeWyY5Byy7CytD3ejLmu+J5PYEQfSBD2+q0zBIKkWNizmywmzJBy6kKDkx/oh615pqkpc1hmeaW95hDtvk6gYB4GpQ96zo9TMhC2R1SH6K33sJfwtKK9ie3TFUHYwk/1A+LSCpwIcS8z2h1E3qtGfATs/mIpS6ZVahuJksMtBh37BPOvsLag347kimVZYUNj6+eDSlDBiBVLIsbOB1mj74SQEeqBkv+BXgAlrKP0vAtqLcg70vs4SQ6xwsJI6lBYChGHrQx1jPoQRjfuZO6bYfpbGlRLIaxg//8UHXdRz6QJ9MNBOugcXqpPAQ0L7e/ORYbVhC/oJw8/6nxTIIEBI77A84Q1xLTOZzwZULkTg8aOzpmb0+tKt6043O+r+8JEvUnjVAOBPepSfY6EsoOqdrWq7NrydsTzNQDbqR8suQ+LXV8D0+lunIKUBAjz/vn5fRwMoBlJQKN30EHoCSzyyUGUuOASRIahs0HnW49weUsET2QGI6YfeVkUl05gpfgF3sDEXf5xPd7+vjpO9Z9zBmRfdZGWoQ9znc="
 
 
 # vim: set shiftwidth=2 tabstop=2 softtabstop=-1 expandtab:
