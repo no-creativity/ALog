@@ -60,9 +60,11 @@ public abstract class ALog {
     }
 
     /**
-     * @param message The information to be logged.
+     * To print a debug message.
      * <p>
      * It's logged only when debug.
+     *
+     * @param message The information to be logged.
      */
     @SuppressWarnings("WeakerAccess")
     public void d(String message) {
@@ -72,16 +74,26 @@ public abstract class ALog {
     }
 
     /**
+     * To print a warning message.
+     * <p>
+     * Note: It's always logged.
+     *
+     * @param message The information to be logged.
+     */
+    @SuppressWarnings("WeakerAccess")
+    public void w(String message) {
+        Log.w(TAG, getThreadInfo() + message);
+    }
+
+    /**
      * To print the message of {@link Throwable}.
      * <p>
-     * It's logged only when debug.
+     * Note: It's always logged.
      *
      * @param th The {@link Throwable} to be logged.
      */
     @SuppressWarnings("WeakerAccess")
     public void e(Throwable th) {
-        if (DEBUG) {
-            Log.e(TAG, getThreadInfo() + th.getMessage());
-        }
+        Log.e(TAG, getThreadInfo() + th.getMessage());
     }
 }

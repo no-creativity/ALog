@@ -68,13 +68,27 @@ public class ALogTest {
     }
 
     @Test
+    public void testW() throws Exception {
+        final String INFO = "warning";
+        final String MSG = "ALogTest.testW() " + INFO;
+
+        LogObserver observerA = new LogObserver(MSG, LogLevel.W);
+        A.log.w(INFO);
+        assertTrue(observerA.getResult());
+
+        LogObserver observerB = new LogObserver(MSG, LogLevel.W);
+        B.log.w(INFO);
+        assertTrue(observerB.getResult());
+    }
+
+    @Test
     public void testE() throws Exception {
         final Throwable TH = new Throwable("error");
         final String MSG = "ALogTest.testE() " + TH.getMessage();
 
         LogObserver observerA = new LogObserver(MSG, LogLevel.E);
         A.log.e(TH);
-        assertFalse(observerA.getResult());
+        assertTrue(observerA.getResult());
 
         LogObserver observerB = new LogObserver(MSG, LogLevel.E);
         B.log.e(TH);
@@ -84,6 +98,7 @@ public class ALogTest {
     enum LogLevel {
         V,
         D,
+        W,
         E,
     }
 
