@@ -32,6 +32,10 @@ import static org.junit.Assert.fail;
 public class ALogTest {
     private static final String TAG = ALogTest.class.getSimpleName();
 
+    @SuppressWarnings("ThrowableInstanceNeverThrown")
+    private final Throwable WTF_TH = new Throwable("WTF");
+    private final String WTF_MSG = WTF_TH.getMessage();
+
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
@@ -93,6 +97,23 @@ public class ALogTest {
         LogObserver observerB = new LogObserver(MSG, LogLevel.E);
         B.log.e(TH);
         assertTrue(observerB.getResult());
+    }
+
+    @Test
+    public void testWtf0() throws Exception {
+        LogObserver observer = new LogObserver(WTF_MSG, LogLevel.E);
+        A.log.wtf(WTF_TH);
+        assertTrue(observer.getResult());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testWtf1() throws Exception {
+        B.log.wtf(new Exception(WTF_TH));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testWtf2() throws Exception {
+        B.log.wtf(new IllegalStateException(WTF_TH));
     }
 
     enum LogLevel {

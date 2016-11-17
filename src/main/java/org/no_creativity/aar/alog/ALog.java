@@ -96,4 +96,26 @@ public abstract class ALog {
     public void e(Throwable th) {
         Log.e(TAG, getThreadInfo() + th.getMessage());
     }
+
+    /**
+     * To print <b>What a Terrible Failure</b> caused by {@link Throwable}.
+     * <p>
+     * Note: It would cause a crash when debug, or would be logged.
+     *
+     * @param th The {@link Throwable} to be logged.
+     * @throws RuntimeException Thrown when debug.
+     */
+    @SuppressWarnings("WeakerAccess")
+    public void wtf(Throwable th) throws RuntimeException {
+        if (DEBUG) {
+            if (th instanceof RuntimeException) {
+                throw (RuntimeException) th;
+            } else {
+                throw new RuntimeException(th);
+            }
+        } else {
+            String traceString = Log.getStackTraceString(th);
+            Log.e(TAG, traceString);
+        }
+    }
 }
