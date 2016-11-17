@@ -14,7 +14,7 @@ android:
     - build-tools-24.0.3
     - $ANDROID_TARGET
     - sys-img-$ANDROID_ABI-$ANDROID_TARGET
-    - extra
+    - extra-android-m2repository
 
 before_script: # Create and start emulator
   - android list targets
@@ -25,13 +25,12 @@ before_script: # Create and start emulator
 
 script:
   - ./gradlew connectedAndroidTest
-  - ./gradlew createDebugCoverageReport
 
 after_failure:
-  - cat build/outputs/lint-results-debug.xml
-  - cat build/outputs/androidTest-results/connected/*.xml
+  - for name in $(find build/outputs -name '*.xml'); do cat $name;  done
 
 after_success:
+  - ./gradlew createDebugCoverageReport
   - bash <(curl -s https://codecov.io/bash)
   - for name in $(find $TRAVIS_BUILD_DIR -name '*.aar'); do ls -hl $name;  done
 
