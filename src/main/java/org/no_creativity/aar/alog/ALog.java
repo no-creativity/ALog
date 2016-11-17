@@ -20,6 +20,12 @@ public abstract class ALog {
     private final String TAG;
     private final boolean DEBUG;
 
+    /**
+     * The constructor is only used by extending.
+     *
+     * @param tag The global tag.
+     * @param debug The environment is debuggable or not.
+     */
     protected ALog(String tag, boolean debug) {
         TAG = tag;
         DEBUG = debug;
@@ -41,6 +47,11 @@ public abstract class ALog {
         return file.substring(0, file.lastIndexOf("."));
     }
 
+    /**
+     * To show the file and method name only.
+     * <p>
+     * It's logged only when debug.
+     */
     @SuppressWarnings("WeakerAccess")
     public void v() {
         if (DEBUG) {
@@ -48,6 +59,11 @@ public abstract class ALog {
         }
     }
 
+    /**
+     * @param message The information to be logged.
+     * <p>
+     * It's logged only when debug.
+     */
     @SuppressWarnings("WeakerAccess")
     public void d(String message) {
         if (DEBUG) {
@@ -55,6 +71,13 @@ public abstract class ALog {
         }
     }
 
+    /**
+     * To print the message of {@link Throwable}.
+     * <p>
+     * It's logged only when debug.
+     *
+     * @param th The {@link Throwable} to be logged.
+     */
     @SuppressWarnings("WeakerAccess")
     public void w(Throwable th) {
         if (DEBUG) {
