@@ -13,6 +13,7 @@ import android.util.Log;
  *
  * @author yanqd0
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class ALog {
     private static final int TRACE_POSITION = 4;
     private static final String ERROR_INFO = "UNKNOWN_FILE.UNKNOWN_METHOD() ";
@@ -52,7 +53,6 @@ public abstract class ALog {
      * <p>
      * It's logged only when debug.
      */
-    @SuppressWarnings("WeakerAccess")
     public void v() {
         if (DEBUG) {
             Log.v(TAG, getThreadInfo());
@@ -66,7 +66,6 @@ public abstract class ALog {
      *
      * @param message The information to be logged.
      */
-    @SuppressWarnings("WeakerAccess")
     public void d(String message) {
         if (DEBUG) {
             Log.d(TAG, getThreadInfo() + message);
@@ -80,7 +79,6 @@ public abstract class ALog {
      *
      * @param message The information to be logged.
      */
-    @SuppressWarnings("WeakerAccess")
     public void w(String message) {
         Log.w(TAG, getThreadInfo() + message);
     }
@@ -92,7 +90,6 @@ public abstract class ALog {
      *
      * @param th The {@link Throwable} to be logged.
      */
-    @SuppressWarnings("WeakerAccess")
     public void e(Throwable th) {
         Log.e(TAG, getThreadInfo() + th.getMessage());
     }
@@ -105,7 +102,6 @@ public abstract class ALog {
      * @param th The {@link Throwable} to be logged.
      * @throws RuntimeException Thrown when debug.
      */
-    @SuppressWarnings("WeakerAccess")
     public void wtf(Throwable th) throws RuntimeException {
         if (DEBUG) {
             if (th instanceof RuntimeException) {
