@@ -79,9 +79,9 @@ public abstract class ALog {
      * @param th The {@link Throwable} to be logged.
      */
     @SuppressWarnings("WeakerAccess")
-    public void w(Throwable th) {
+    public void e(Throwable th) {
         if (DEBUG) {
-            Log.w(TAG, getThreadInfo() + th.getMessage());
+            Log.e(TAG, getThreadInfo() + th.getMessage());
         }
     }
 }
