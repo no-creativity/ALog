@@ -31,6 +31,16 @@ import static org.junit.Assert.fail;
 @RunWith(AndroidJUnit4.class)
 public class ALogTest {
     private static final String TAG = ALogTest.class.getSimpleName();
+    private static final String TOO_LONG;
+
+    static {
+        StringBuilder builder = new StringBuilder("This information is");
+        String repeat = " too long and";
+        for(int i=0; i< 400; i++) {
+            builder.append(repeat);
+        }
+        TOO_LONG = builder.toString();
+    }
 
     @SuppressWarnings("ThrowableInstanceNeverThrown")
     private final Throwable WTF_TH = new Throwable("WTF");
@@ -71,6 +81,11 @@ public class ALogTest {
         assertTrue(observerB.getResult());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void checkLengthOfD() throws Exception {
+        B.log.d(TOO_LONG);
+    }
+
     @Test
     public void testI() throws Exception {
         final String INFO = "info";
@@ -84,6 +99,11 @@ public class ALogTest {
         LogObserver observerB = new LogObserver(MSG, LogLevel.D);
         B.log.i(builder);
         assertTrue(observerB.getResult());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkLengthOfI() throws Exception {
+        B.log.i(new StringBuilder(TOO_LONG));
     }
 
     @Test
@@ -100,6 +120,11 @@ public class ALogTest {
         assertTrue(observerB.getResult());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void checkLengthOfW() throws Exception {
+        B.log.w(TOO_LONG);
+    }
+
     @Test
     public void testE() throws Exception {
         final Throwable TH = new Throwable("error");
@@ -112,6 +137,11 @@ public class ALogTest {
         LogObserver observerB = new LogObserver(MSG, LogLevel.E);
         B.log.e(TH);
         assertTrue(observerB.getResult());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkLengthOfE() throws Exception {
+        B.log.e(new Exception(TOO_LONG));
     }
 
     @Test

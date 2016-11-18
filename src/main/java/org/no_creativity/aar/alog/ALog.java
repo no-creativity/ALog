@@ -16,6 +16,7 @@ import android.util.Log;
 @SuppressWarnings("WeakerAccess")
 public abstract class ALog {
     private static final int TRACE_POSITION = 4;
+    private static final int LOG_LENGTH_LIMIT = 0x1000;
 
     private final String TAG;
     private final boolean DEBUG;
@@ -59,10 +60,13 @@ public abstract class ALog {
      * It's logged only when debug.
      *
      * @param message The information to be logged.
+     * @throws IllegalArgumentException Thrown if the whole information is more than 4 KB.
      */
-    public void d(String message) {
+    public void d(String message) throws IllegalArgumentException {
         if (DEBUG) {
-            Log.d(TAG, getThreadInfo() + message);
+            String information = getThreadInfo() + message;
+            checkLength(information);
+            Log.d(TAG, information);
         }
     }
 
@@ -72,11 +76,14 @@ public abstract class ALog {
      * It's logged only when debug.
      *
      * @param builder The information holder.
+     * @throws IllegalArgumentException Thrown if the whole information is more than 4 KB.
      */
     public void i(StringBuilder builder) {
         if (DEBUG) {
             builder.insert(0, getThreadInfo());
-            Log.i(TAG, builder.toString());
+            String information = builder.toString();
+            checkLength(information);
+            Log.i(TAG, information);
         }
     }
 
@@ -86,9 +93,12 @@ public abstract class ALog {
      * Note: It's always logged.
      *
      * @param message The information to be logged.
+     * @throws IllegalArgumentException Thrown if the whole information is more than 4 KB.
      */
-    public void w(String message) {
-        Log.w(TAG, getThreadInfo() + message);
+    public void w(String message) throws IllegalArgumentException {
+        String information = getThreadInfo() + message;
+        checkLength(information);
+        Log.w(TAG, information);
     }
 
     /**
@@ -97,9 +107,12 @@ public abstract class ALog {
      * Note: It's always logged.
      *
      * @param throwable The {@link Throwable} to be logged.
+     * @throws IllegalArgumentException Thrown if the whole information is more than 4 KB.
      */
-    public void e(Throwable throwable) {
-        Log.e(TAG, getThreadInfo() + throwable.getMessage());
+    public void e(Throwable throwable) throws IllegalArgumentException {
+        String information = getThreadInfo() + throwable.getMessage();
+        checkLength(information);
+        Log.e(TAG, information);
     }
 
     /**
@@ -135,6 +148,21 @@ public abstract class ALog {
             throw new RuntimeException(message);
         } else {
             Log.e(TAG, getThreadInfo() + message);
+        }
+    }
+
+    /**
+     * To alert developers if the information is more than 4 KB.
+     * <p>
+     * Note: If the {@link String} is more than 4 KB, the tail will be trimmed.
+     *
+     * @param information The String to be checked.
+     */
+    private void checkLength(String information) throws IllegalArgumentException {
+        if (DEBUG) {
+            if (information.length() > LOG_LENGTH_LIMIT) {
+                throw new IllegalArgumentException("The information is more than 4 KB!");
+            }
         }
     }
 }
