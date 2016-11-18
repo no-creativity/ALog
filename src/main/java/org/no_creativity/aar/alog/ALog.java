@@ -67,6 +67,20 @@ public abstract class ALog {
     }
 
     /**
+     * To print complicated information.
+     * <p>
+     * It's logged only when debug.
+     *
+     * @param builder The information holder.
+     */
+    public void i(StringBuilder builder) {
+        if (DEBUG) {
+            builder.insert(0, getThreadInfo());
+            Log.i(TAG, builder.toString());
+        }
+    }
+
+    /**
      * To print a warning message.
      * <p>
      * Note: It's always logged.

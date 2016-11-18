@@ -72,6 +72,21 @@ public class ALogTest {
     }
 
     @Test
+    public void testI() throws Exception {
+        final String INFO = "info";
+        final String MSG = "ALogTest.testI() " + INFO;
+        StringBuilder builder = new StringBuilder(INFO);
+
+        LogObserver observerA = new LogObserver(MSG, LogLevel.D);
+        A.log.i(builder);
+        assertFalse(observerA.getResult());
+
+        LogObserver observerB = new LogObserver(MSG, LogLevel.D);
+        B.log.i(builder);
+        assertTrue(observerB.getResult());
+    }
+
+    @Test
     public void testW() throws Exception {
         final String INFO = "warning";
         final String MSG = "ALogTest.testW() " + INFO;
