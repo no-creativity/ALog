@@ -2,6 +2,8 @@
 
 [![Travis](https://travis-ci.org/no-creativity/ALog.svg?branch=master)](https://travis-ci.org/no-creativity/ALog)
 [![Releases](https://img.shields.io/github/release/no-creativity/ALog.svg)](https://github.com/no-creativity/ALog/releases/latest)
+[![Bintray](https://api.bintray.com/packages/no-creativity/maven/ALog/images/download.svg)](https://bintray.com/no-creativity/maven/ALog/_latestVersion) 
+[![JitPack](https://jitpack.io/v/no-creativity/ALog.svg)](https://jitpack.io/#no-creativity/ALog)
 [![CodeCov](https://codecov.io/gh/no-creativity/ALog/branch/master/graph/badge.svg)](https://codecov.io/gh/no-creativity/ALog)
 [![VersionEye](https://www.versioneye.com/user/projects/5827e1372f4754004399638c/badge.svg)](https://www.versioneye.com/user/projects/5827e1372f4754004399638c)
 
@@ -14,6 +16,37 @@ A Log wrapper for Android applications.
 *Don't to print anything log if possible!*
 
 If you still want to print logs, be careful.
+
+## Add Dependencies
+
+From Bintray's JCenter:
+
+```groovy
+dependencies {
+    compile 'org.no_creativity.aar:ALog:0.2.0'
+}
+```
+
+From JitPack:
+
+- Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+    repositories {
+        ..
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+- Add the dependency:
+
+```groovy
+dependencies {
+    compile 'com.github.no-creativity:ALog:0.2.0'
+}
+```
 
 ## Usage
 
@@ -33,8 +66,16 @@ public class A extends ALog {
 And the class `A` should be used like this:
 
 ```java
-    A.log.v();
-    A.log.d("Hello");
+    // Print only when debug.
+    A.log.v(); // Print the file and method name.
+    A.log.d("Message"); // Print the message with the file and method name.
+
+    // Print always.
+    A.log.w("Message");
+    A.log.e(exception); // Print the exception message.
+
+    // Crash when debug, or print when release.
+    A.log.wtf(exception); // Print stack traces.
 ```
 
 Finally, the logs should be searched like this:
