@@ -16,7 +16,6 @@ import android.util.Log;
 @SuppressWarnings("WeakerAccess")
 public abstract class ALog {
     private static final int TRACE_POSITION = 4;
-    private static final String ERROR_INFO = "UNKNOWN_FILE.UNKNOWN_METHOD() ";
 
     private final String TAG;
     private final boolean DEBUG;
@@ -35,11 +34,7 @@ public abstract class ALog {
     private static String getThreadInfo() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         StackTraceElement element;
-        try {
-            element = stackTrace[TRACE_POSITION];
-        } catch (IndexOutOfBoundsException e) {
-            return ERROR_INFO;
-        }
+        element = stackTrace[TRACE_POSITION];
         return getFileName(element) + "." + element.getMethodName() + "() ";
     }
 
