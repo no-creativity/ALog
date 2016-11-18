@@ -108,4 +108,19 @@ public abstract class ALog {
             Log.e(TAG, traceString);
         }
     }
+
+    /**
+     * To print <b>What a Terrible Failure</b> with a message.
+     * <p>
+     * Note: It would cause a crash when debug, or would be logged.
+     * @param message The information indicating the failure.
+     * @throws RuntimeException Thrown when debug.
+     */
+    public void wtf(String message) throws RuntimeException {
+        if (DEBUG) {
+            throw new RuntimeException(message);
+        } else {
+            Log.e(TAG, getThreadInfo() + message);
+        }
+    }
 }

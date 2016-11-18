@@ -116,6 +116,20 @@ public class ALogTest {
         B.log.wtf(new IllegalStateException(WTF_TH));
     }
 
+    @Test
+    public void testWtf3() throws Exception {
+        final String INFO = "WTF";
+        final String MSG = "ALogTest.testWtf3() " + INFO;
+        LogObserver observer = new LogObserver(MSG, LogLevel.E);
+        A.log.wtf(INFO);
+        assertTrue(observer.getResult());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testWtf4() throws Exception {
+        B.log.wtf("WTF");
+    }
+
     enum LogLevel {
         V,
         D,
