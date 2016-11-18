@@ -83,10 +83,10 @@ public abstract class ALog {
      * <p>
      * Note: It's always logged.
      *
-     * @param th The {@link Throwable} to be logged.
+     * @param throwable The {@link Throwable} to be logged.
      */
-    public void e(Throwable th) {
-        Log.e(TAG, getThreadInfo() + th.getMessage());
+    public void e(Throwable throwable) {
+        Log.e(TAG, getThreadInfo() + throwable.getMessage());
     }
 
     /**
@@ -94,18 +94,18 @@ public abstract class ALog {
      * <p>
      * Note: It would cause a crash when debug, or would be logged.
      *
-     * @param th The {@link Throwable} to be logged.
+     * @param throwable The {@link Throwable} to be logged.
      * @throws RuntimeException Thrown when debug.
      */
-    public void wtf(Throwable th) throws RuntimeException {
+    public void wtf(Throwable throwable) throws RuntimeException {
         if (DEBUG) {
-            if (th instanceof RuntimeException) {
-                throw (RuntimeException) th;
+            if (throwable instanceof RuntimeException) {
+                throw (RuntimeException) throwable;
             } else {
-                throw new RuntimeException(th);
+                throw new RuntimeException(throwable);
             }
         } else {
-            String traceString = Log.getStackTraceString(th);
+            String traceString = Log.getStackTraceString(throwable);
             Log.e(TAG, traceString);
         }
     }
