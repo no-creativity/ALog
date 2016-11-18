@@ -33,8 +33,7 @@ public abstract class ALog {
 
     private static String getThreadInfo() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        StackTraceElement element;
-        element = stackTrace[TRACE_POSITION];
+        StackTraceElement element = stackTrace[TRACE_POSITION];
         return getFileName(element) + "." + element.getMethodName() + "() ";
     }
 
