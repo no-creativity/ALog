@@ -13,17 +13,17 @@ A Log wrapper for Android applications.
 
 > The order in terms of verbosity, from least to most is ERROR, WARN, INFO, DEBUG, VERBOSE. Verbose should never be compiled into an application except during development. Debug logs are compiled in but stripped at runtime. Error, warning and info logs are always kept.
 
-*Don't to print anything log if possible!*
+*Don't print anything log if possible, especially after released!*
 
 If you still want to print logs, be careful.
 
 ## Add Dependencies
 
-From Bintray's JCenter:
+From JCenter of Bintray:
 
 ```groovy
 dependencies {
-    compile 'org.no_creativity.aar:ALog:0.2.0'
+    compile 'org.no_creativity.aar:ALog:0.3.0'
 }
 ```
 
@@ -44,7 +44,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    compile 'com.github.no-creativity:ALog:0.2.0'
+    compile 'com.github.no-creativity:ALog:0.3.0'
 }
 ```
 
@@ -69,6 +69,7 @@ And the class `A` should be used like this:
     // Print only when debug.
     A.log.v(); // Print the file and method name.
     A.log.d("Message"); // Print the message with the file and method name.
+    A.log.i(stringBuilder); // Print complicated information.
 
     // Print always.
     A.log.w("Message");
@@ -76,9 +77,10 @@ And the class `A` should be used like this:
 
     // Crash when debug, or print when release.
     A.log.wtf(exception); // Print stack traces.
+    A.log.wtf("Message"); // Print the failure message.
 ```
 
-Finally, the logs should be searched like this:
+Finally, the logs could be filtered like this:
 
 ```sh
 adb logcat -s YourGlobalTag
