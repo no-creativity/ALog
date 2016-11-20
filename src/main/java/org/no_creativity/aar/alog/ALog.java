@@ -8,6 +8,8 @@ package org.no_creativity.aar.alog;
 
 import android.util.Log;
 
+import java.util.Set;
+
 /**
  * It is a wrapper of {@link Log}, which provides some useful functions.
  *
@@ -15,8 +17,12 @@ import android.util.Log;
  */
 @SuppressWarnings("WeakerAccess")
 public abstract class ALog {
+    /**
+     * The {@link Log} can not display the tail after 4096 characters.
+     */
+    protected static final int LOG_LENGTH_LIMIT = 0x1000;
+
     private static final int TRACE_POSITION = 4;
-    private static final int LOG_LENGTH_LIMIT = 0x1000;
 
     private final String TAG;
     private final boolean DEBUG;
@@ -60,7 +66,7 @@ public abstract class ALog {
      * It's logged only when debug.
      *
      * @param message The information to be logged.
-     * @throws IllegalArgumentException Thrown if the whole information is more than 4 KB.
+     * @throws IllegalArgumentException Thrown if the information is more than 4 KB when debug.
      */
     public void d(String message) throws IllegalArgumentException {
         if (DEBUG) {
@@ -76,7 +82,7 @@ public abstract class ALog {
      * It's logged only when debug.
      *
      * @param builder The information holder.
-     * @throws IllegalArgumentException Thrown if the whole information is more than 4 KB.
+     * @throws IllegalArgumentException Thrown if the information is more than 4 KB when debug.
      */
     public void i(StringBuilder builder) {
         if (DEBUG) {
@@ -85,6 +91,37 @@ public abstract class ALog {
             checkLength(information);
             Log.i(TAG, information);
         }
+    }
+
+    /**
+     * To print complicated information.
+     * <p>
+     * It's logged only when debug.
+     *
+     * @param set The information holder.
+     * @throws IllegalArgumentException Thrown if the information is more than 4 KB when debug.
+     */
+    public void i(Set set) throws IllegalArgumentException {
+        if (DEBUG) {
+            String information = generateInformation(getThreadInfo(), set);
+            checkLength(information);
+            Log.i(TAG, information);
+        }
+    }
+
+    private String generateInformation(String threadInfo, Set set) {
+        StringBuilder builder = new StringBuilder(threadInfo);
+        builder.append('[');
+        int i = 0;
+        for (Object o : set) {
+            if (i != 0) {
+                builder.append(", ");
+            }
+            builder.append(o);
+            i++;
+        }
+        builder.append(']');
+        return builder.toString();
     }
 
     /**

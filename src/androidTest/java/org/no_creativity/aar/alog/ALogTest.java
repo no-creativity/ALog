@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -87,9 +88,9 @@ public class ALogTest {
     }
 
     @Test
-    public void testI() throws Exception {
+    public void testI0() throws Exception {
         final String INFO = "info";
-        final String MSG = "ALogTest.testI() " + INFO;
+        final String MSG = "ALogTest.testI0() " + INFO;
         StringBuilder builder = new StringBuilder(INFO);
 
         LogObserver observerA = new LogObserver(MSG, LogLevel.D);
@@ -101,9 +102,36 @@ public class ALogTest {
         assertTrue(observerB.getResult());
     }
 
+    @Test
+    public void testI1() throws Exception {
+        final String INFO = "[a, b, c]";
+        final String MSG = "ALogTest.testI1() " + INFO;
+        HashSet<String> set = new HashSet<>();
+        set.add("a");
+        set.add("b");
+        set.add("c");
+
+        LogObserver observerA = new LogObserver(MSG, LogLevel.D);
+        A.log.i(set);
+        assertFalse(observerA.getResult());
+
+        LogObserver observerB = new LogObserver(MSG, LogLevel.D);
+        B.log.i(set);
+        assertTrue(observerB.getResult());
+    }
+
     @Test(expected = IllegalArgumentException.class)
-    public void checkLengthOfI() throws Exception {
+    public void checkLengthOfI0() throws Exception {
         B.log.i(new StringBuilder(TOO_LONG));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkLengthOfI1() throws Exception {
+        HashSet<Object> set = new HashSet<>();
+        for (int i = 0; i < ALog.LOG_LENGTH_LIMIT; i++) {
+            set.add(i);
+        }
+        B.log.i(set);
     }
 
     @Test
