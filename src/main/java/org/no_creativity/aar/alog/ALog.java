@@ -74,8 +74,9 @@ public abstract class ALog {
     public void d(String message) throws IllegalArgumentException {
         if (DEBUG) {
             String information = getThreadInfo() + message;
-            checkLength(information);
             Log.d(TAG, information);
+
+            checkLength(information);
         }
     }
 
@@ -91,8 +92,9 @@ public abstract class ALog {
         if (DEBUG) {
             builder.insert(0, getThreadInfo());
             String information = builder.toString();
-            checkLength(information);
             Log.i(TAG, information);
+
+            checkLength(information);
         }
     }
 
@@ -107,8 +109,9 @@ public abstract class ALog {
     public void i(Set set) throws IllegalArgumentException {
         if (DEBUG) {
             String information = generateInformation(getThreadInfo(), set);
-            checkLength(information);
             Log.i(TAG, information);
+
+            checkLength(information);
         }
     }
 
@@ -123,8 +126,9 @@ public abstract class ALog {
     public void i(Map map) throws IllegalArgumentException {
         if (DEBUG) {
             String information = generateInformation(getThreadInfo(), map);
-            checkLength(information);
             Log.i(TAG, information);
+
+            checkLength(information);
         }
     }
 
@@ -172,8 +176,11 @@ public abstract class ALog {
      */
     public void w(String message) throws IllegalArgumentException {
         String information = getThreadInfo() + message;
-        checkLength(information);
         Log.w(TAG, information);
+
+        if (DEBUG) {
+            checkLength(information);
+        }
     }
 
     /**
@@ -186,8 +193,11 @@ public abstract class ALog {
      */
     public void e(Throwable throwable) throws IllegalArgumentException {
         String information = getThreadInfo() + throwable.getMessage();
-        checkLength(information);
         Log.e(TAG, information);
+
+        if (DEBUG) {
+            checkLength(information);
+        }
     }
 
     /**
@@ -234,10 +244,8 @@ public abstract class ALog {
      * @param information The String to be checked.
      */
     private void checkLength(String information) throws IllegalArgumentException {
-        if (DEBUG) {
-            if (information.length() > LOG_LENGTH_LIMIT) {
-                throw new IllegalArgumentException("The information is more than 4 KB!");
-            }
+        if (information.length() > LOG_LENGTH_LIMIT) {
+            throw new IllegalArgumentException("The information is more than 4 KB!");
         }
     }
 }

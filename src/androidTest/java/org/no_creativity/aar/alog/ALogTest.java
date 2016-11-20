@@ -309,7 +309,7 @@ public class ALogTest {
                 return this.runtime.exec("logcat -ds " + TAG + ":" + this.level);
             } catch (IOException e) {
                 fail(e.getMessage());
-                throw new IllegalThreadStateException(e.getMessage());
+                throw new IllegalStateException(e);
             }
         }
     }
