@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
@@ -120,6 +121,24 @@ public class ALogTest {
         assertTrue(observerB.getResult());
     }
 
+    @Test
+    public void testI2() throws Exception {
+        final String INFO = "{a:1,b:2,c:3}";
+        final String MSG = "ALogTest.testI2() " + INFO;
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put('a', '1');
+        map.put('b', '2');
+        map.put('c', '3');
+
+        LogObserver observerA = new LogObserver(MSG, LogLevel.D);
+        A.log.i(map);
+        assertFalse(observerA.getResult());
+
+        LogObserver observerB = new LogObserver(MSG, LogLevel.D);
+        B.log.i(map);
+        assertTrue(observerB.getResult());
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void checkLengthOfI0() throws Exception {
         B.log.i(new StringBuilder(TOO_LONG));
@@ -132,6 +151,15 @@ public class ALogTest {
             set.add(i);
         }
         B.log.i(set);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkLengthOfI2() throws Exception {
+        HashMap<Object, Object> map = new HashMap<>();
+        for (int i = 0; i < ALog.LOG_LENGTH_LIMIT; i++) {
+            map.put(i, i);
+        }
+        B.log.i(map);
     }
 
     @Test

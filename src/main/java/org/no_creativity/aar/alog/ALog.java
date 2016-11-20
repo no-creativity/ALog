@@ -8,7 +8,10 @@ package org.no_creativity.aar.alog;
 
 import android.util.Log;
 
+import java.util.Map;
 import java.util.Set;
+
+import static java.util.Map.Entry;
 
 /**
  * It is a wrapper of {@link Log}, which provides some useful functions.
@@ -109,6 +112,22 @@ public abstract class ALog {
         }
     }
 
+    /**
+     * To print complicated information.
+     * <p>
+     * It's logged only when debug.
+     *
+     * @param map The information holder.
+     * @throws IllegalArgumentException Thrown if the information is more than 4 KB when debug.
+     */
+    public void i(Map map) throws IllegalArgumentException {
+        if (DEBUG) {
+            String information = generateInformation(getThreadInfo(), map);
+            checkLength(information);
+            Log.i(TAG, information);
+        }
+    }
+
     private String generateInformation(String threadInfo, Set set) {
         StringBuilder builder = new StringBuilder(threadInfo);
         builder.append('[');
@@ -121,6 +140,25 @@ public abstract class ALog {
             i++;
         }
         builder.append(']');
+        return builder.toString();
+    }
+
+    private String generateInformation(String threadInfo, Map map) {
+        StringBuilder builder = new StringBuilder(threadInfo);
+        builder.append('{');
+        int i = 0;
+        @SuppressWarnings("unchecked")
+        Set<Entry> set = map.entrySet();
+        for (Entry entry : set) {
+            if (i != 0) {
+                builder.append(',');
+            }
+            builder.append(entry.getKey());
+            builder.append(':');
+            builder.append(entry.getValue());
+            i++;
+        }
+        builder.append('}');
         return builder.toString();
     }
 
