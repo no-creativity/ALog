@@ -14,7 +14,7 @@ import java.util.Set;
 import static java.util.Map.Entry;
 
 /**
- * It is a wrapper of {@link Log}, which provides some useful functions.
+ * It is a wrapper of {@link Log}, which simplifies and redefines the way of printing a log.
  *
  * @author yanqd0
  */
@@ -39,17 +39,6 @@ public abstract class ALog {
     protected ALog(String tag, boolean debug) {
         TAG = tag;
         DEBUG = debug;
-    }
-
-    private static String getThreadInfo() {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        StackTraceElement element = stackTrace[TRACE_POSITION];
-        return getFileName(element) + "." + element.getMethodName() + "() ";
-    }
-
-    private static String getFileName(StackTraceElement element) {
-        String file = element.getFileName();
-        return file.substring(0, file.lastIndexOf("."));
     }
 
     /**
@@ -243,9 +232,20 @@ public abstract class ALog {
      *
      * @param information The String to be checked.
      */
-    private void checkLength(String information) throws IllegalArgumentException {
+    private static void checkLength(String information) throws IllegalArgumentException {
         if (information.length() > LOG_LENGTH_LIMIT) {
             throw new IllegalArgumentException("The information is more than 4 KB!");
         }
+    }
+
+    private static String getThreadInfo() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        StackTraceElement element = stackTrace[TRACE_POSITION];
+        return getFileName(element) + "." + element.getMethodName() + "() ";
+    }
+
+    private static String getFileName(StackTraceElement element) {
+        String file = element.getFileName();
+        return file.substring(0, file.lastIndexOf("."));
     }
 }

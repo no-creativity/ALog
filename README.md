@@ -7,7 +7,7 @@
 [![CodeCov](https://codecov.io/gh/no-creativity/ALog/branch/master/graph/badge.svg)](https://codecov.io/gh/no-creativity/ALog)
 [![VersionEye](https://www.versioneye.com/user/projects/5827e1372f4754004399638c/badge.svg)](https://www.versioneye.com/user/projects/5827e1372f4754004399638c)
 
-A Log wrapper for Android applications.
+A Log wrapper for Android applications, which simplifies and redefines the way of printing a log.
 
 ## About Android Log
 
@@ -23,7 +23,7 @@ From JCenter of Bintray:
 
 ```groovy
 dependencies {
-    compile 'org.no_creativity.aar:ALog:0.3.0'
+    compile 'org.no_creativity.aar:ALog:0.4.0'
 }
 ```
 
@@ -44,7 +44,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    compile 'com.github.no-creativity:ALog:0.3.0'
+    compile 'com.github.no-creativity:ALog:0.4.0'
 }
 ```
 
@@ -69,7 +69,11 @@ And the class `A` should be used like this:
     // Print only when debug.
     A.log.v(); // Print the file and method name.
     A.log.d("Message"); // Print the message with the file and method name.
-    A.log.i(stringBuilder); // Print complicated information.
+
+    // Print complicated information when debug.
+    A.log.i(stringBuilder);
+    A.log.i(set);
+    A.log.i(map);
 
     // Print always.
     A.log.w("Message");
@@ -85,6 +89,8 @@ Finally, the logs could be filtered like this:
 ```sh
 adb logcat -s YourGlobalTag
 ```
+
+You can find more detail in [JavaDoc](https://jitpack.io/com/github/no-creativity/ALog/0.4.0/javadoc/).
 
 ## Version Information
 
