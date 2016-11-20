@@ -38,7 +38,7 @@ public class ALogTest {
     static {
         StringBuilder builder = new StringBuilder("This information is");
         String repeat = " too long and";
-        for(int i=0; i< 400; i++) {
+        for (int i = 0; i < 400; i++) {
             builder.append(repeat);
         }
         TOO_LONG = builder.toString();
@@ -94,11 +94,11 @@ public class ALogTest {
         final String MSG = "ALogTest.testI0() " + INFO;
         StringBuilder builder = new StringBuilder(INFO);
 
-        LogObserver observerA = new LogObserver(MSG, LogLevel.D);
+        LogObserver observerA = new LogObserver(MSG, LogLevel.I);
         A.log.i(builder);
         assertFalse(observerA.getResult());
 
-        LogObserver observerB = new LogObserver(MSG, LogLevel.D);
+        LogObserver observerB = new LogObserver(MSG, LogLevel.I);
         B.log.i(builder);
         assertTrue(observerB.getResult());
     }
@@ -112,11 +112,11 @@ public class ALogTest {
         set.add("b");
         set.add("c");
 
-        LogObserver observerA = new LogObserver(MSG, LogLevel.D);
+        LogObserver observerA = new LogObserver(MSG, LogLevel.I);
         A.log.i(set);
         assertFalse(observerA.getResult());
 
-        LogObserver observerB = new LogObserver(MSG, LogLevel.D);
+        LogObserver observerB = new LogObserver(MSG, LogLevel.I);
         B.log.i(set);
         assertTrue(observerB.getResult());
     }
@@ -130,11 +130,11 @@ public class ALogTest {
         map.put('b', '2');
         map.put('c', '3');
 
-        LogObserver observerA = new LogObserver(MSG, LogLevel.D);
+        LogObserver observerA = new LogObserver(MSG, LogLevel.I);
         A.log.i(map);
         assertFalse(observerA.getResult());
 
-        LogObserver observerB = new LogObserver(MSG, LogLevel.D);
+        LogObserver observerB = new LogObserver(MSG, LogLevel.I);
         B.log.i(map);
         assertTrue(observerB.getResult());
     }
@@ -234,6 +234,7 @@ public class ALogTest {
     enum LogLevel {
         V,
         D,
+        I,
         W,
         E,
     }
