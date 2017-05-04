@@ -95,6 +95,7 @@ You can find more detail in [JavaDoc](https://jitpack.io/com/github/no-creativit
 ## Version Information
 
 [![GitHub tag](https://img.shields.io/github/tag/no-creativity/ALog.svg)](https://github.com/no-creativity/ALog/tags)
+![commits-since](https://img.shields.io/github/commits-since/no-creativity/ALog/0.4.0.svg)
 
 | Name             | Version |
 | ----             | ------- |
